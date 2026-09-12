@@ -108,6 +108,11 @@ button:active {
   color: #333;
 }
 
+.sms-btn {
+  background: #f4b942;
+  color: #3f2b00;
+}
+
 .start-btn {
   background: #159957;
   color: white;

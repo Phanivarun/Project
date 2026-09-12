@@ -26,6 +26,7 @@ const categorySelect = document.getElementById("category");
 const messageEl = document.getElementById("message");
 const generateBtn = document.getElementById("generateBtn");
 const copyBtn = document.getElementById("copyBtn");
+const smsBtn = document.getElementById("smsBtn");
 const receiverInput = document.getElementById("receiver");
 const receiverNumberInput = document.getElementById("receiverNumber");
 const intervalSelect = document.getElementById("interval");
@@ -59,6 +60,19 @@ copyBtn.addEventListener("click", async () => {
   } catch (err) {
     console.error("Copy failed", err);
   }
+});
+
+smsBtn.addEventListener("click", () => {
+  const receiverNumber = receiverNumberInput.value.trim();
+  if (!receiverNumber) {
+    statusEl.textContent = "Enter a receiver number before opening the SMS app.";
+    receiverNumberInput.focus();
+    return;
+  }
+
+  const smsNumber = receiverNumber.replace(/[^\d+]/g, "");
+  window.location.href = `sms:${smsNumber}?body=${encodeURIComponent(messageEl.textContent)}`;
+  statusEl.textContent = "SMS app opened. Press Send manually to send the message.";
 });
 
 function addDeliveryLog() {
