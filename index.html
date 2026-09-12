@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Message Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>Random Message Generator</h1>
+    <p class="subtitle">Pick a category and generate a message</p>
+
+    <select id="category">
+      <option value="all">All</option>
+      <option value="quotes">Quotes</option>
+      <option value="jokes">Jokes</option>
+      <option value="greetings">Greetings</option>
+    </select>
+
+    <div id="message" class="message">Press "Generate" to get a message ✨</div>
+
+    <div class="actions">
+      <button id="generateBtn">Generate</button>
+      <button id="copyBtn">Copy</button>
+      <a id="shareBtn" class="share-btn" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
+    </div>
+
+    <p class="hint">Share opens WhatsApp so you choose who to send it to — nothing is sent automatically.</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
