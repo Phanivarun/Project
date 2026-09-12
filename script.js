@@ -27,6 +27,7 @@ const messageEl = document.getElementById("message");
 const generateBtn = document.getElementById("generateBtn");
 const copyBtn = document.getElementById("copyBtn");
 const receiverInput = document.getElementById("receiver");
+const receiverNumberInput = document.getElementById("receiverNumber");
 const intervalSelect = document.getElementById("interval");
 const startBtn = document.getElementById("startBtn");
 const stopBtn = document.getElementById("stopBtn");
@@ -69,7 +70,9 @@ function addDeliveryLog() {
   const title = document.createElement("strong");
   title.textContent = "Simulated delivery";
   const details = document.createElement("span");
-  details.textContent = `${time} · ${receiverInput.value.trim() || "Demo receiver"}`;
+  const receiverName = receiverInput.value.trim() || "Demo receiver";
+  const receiverNumber = receiverNumberInput.value.trim();
+  details.textContent = `${time} · ${receiverName} · ${receiverNumber}`;
   const message = document.createElement("p");
   message.textContent = messageEl.textContent;
   entry.append(title, details, message);
@@ -90,6 +93,12 @@ function stopSimulation() {
 
 startBtn.addEventListener("click", () => {
   if (simulationTimer) return;
+
+  if (!receiverNumberInput.value.trim()) {
+    statusEl.textContent = "Enter a receiver number for the local simulation.";
+    receiverNumberInput.focus();
+    return;
+  }
 
   const interval = Number(intervalSelect.value) * 1000;
   startBtn.disabled = true;
