@@ -39,6 +39,21 @@ const messageCountEl = document.getElementById("messageCount");
 let simulationTimer;
 let messageCount = 0;
 
+function getReceiverNumber() {
+  const digits = receiverNumberInput.value.replace(/\D/g, "");
+  if (!digits) return "";
+
+  const nationalNumber = digits.startsWith("91") && digits.length === 12
+    ? digits.slice(2)
+    : digits.replace(/^0/, "");
+  return `+91${nationalNumber}`;
+}
+
+receiverNumberInput.addEventListener("blur", () => {
+  const receiverNumber = getReceiverNumber();
+  if (receiverNumber) receiverNumberInput.value = receiverNumber;
+});
+
 function getAllMessages() {
   return Object.values(messages).flat();
 }
@@ -63,15 +78,15 @@ copyBtn.addEventListener("click", async () => {
 });
 
 smsBtn.addEventListener("click", () => {
-  const receiverNumber = receiverNumberInput.value.trim();
+  const receiverNumber = getReceiverNumber();
   if (!receiverNumber) {
     statusEl.textContent = "Enter a receiver number before opening the SMS app.";
     receiverNumberInput.focus();
     return;
   }
 
-  const smsNumber = receiverNumber.replace(/[^\d+]/g, "");
-  window.location.href = `sms:${smsNumber}?body=${encodeURIComponent(messageEl.textContent)}`;
+  receiverNumberInput.value = receiverNumber;
+  window.location.href = `sms:${receiverNumber}?body=${encodeURIComponent(messageEl.textContent)}`;
   statusEl.textContent = "SMS app opened. Press Send manually to send the message.";
 });
 
@@ -82,10 +97,9 @@ function addDeliveryLog() {
   const entry = document.createElement("li");
   const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
   const title = document.createElement("strong");
-  title.textContent = "Simulated delivery";
   const details = document.createElement("span");
   const receiverName = receiverInput.value.trim() || "Demo receiver";
-  const receiverNumber = receiverNumberInput.value.trim();
+  const receiverNumber = getReceiverNumber();
   details.textContent = `${time} · ${receiverName} · ${receiverNumber}`;
   const message = document.createElement("p");
   message.textContent = messageEl.textContent;
@@ -108,11 +122,14 @@ function stopSimulation() {
 startBtn.addEventListener("click", () => {
   if (simulationTimer) return;
 
-  if (!receiverNumberInput.value.trim()) {
+  const receiverNumber = getReceiverNumber();
+  if (!receiverNumber) {
     statusEl.textContent = "Enter a receiver number for the local simulation.";
     receiverNumberInput.focus();
     return;
   }
+
+  receiverNumberInput.value = receiverNumber;
 
   const interval = Number(intervalSelect.value) * 1000;
   startBtn.disabled = true;
