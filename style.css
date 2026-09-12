@@ -113,6 +113,11 @@ button:active {
   color: #3f2b00;
 }
 
+.whatsapp-btn {
+  background: #25d366;
+  color: #063b1b;
+}
+
 .start-btn {
   background: #159957;
   color: white;

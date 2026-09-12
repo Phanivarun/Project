@@ -27,6 +27,7 @@ const messageEl = document.getElementById("message");
 const generateBtn = document.getElementById("generateBtn");
 const copyBtn = document.getElementById("copyBtn");
 const smsBtn = document.getElementById("smsBtn");
+const whatsappBtn = document.getElementById("whatsappBtn");
 const receiverInput = document.getElementById("receiver");
 const receiverNumberInput = document.getElementById("receiverNumber");
 const intervalSelect = document.getElementById("interval");
@@ -88,6 +89,21 @@ smsBtn.addEventListener("click", () => {
   receiverNumberInput.value = receiverNumber;
   window.location.href = `sms:${receiverNumber}?body=${encodeURIComponent(messageEl.textContent)}`;
   statusEl.textContent = "SMS app opened. Press Send manually to send the message.";
+});
+
+whatsappBtn.addEventListener("click", () => {
+  const receiverNumber = getReceiverNumber();
+  if (!receiverNumber) {
+    statusEl.textContent = "Enter a receiver number before opening WhatsApp.";
+    receiverNumberInput.focus();
+    return;
+  }
+
+  receiverNumberInput.value = receiverNumber;
+  const whatsappNumber = receiverNumber.replace(/\D/g, "");
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(messageEl.textContent)}`;
+  window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  statusEl.textContent = "WhatsApp opened. Press Send manually to send the message.";
 });
 
 function addDeliveryLog() {
