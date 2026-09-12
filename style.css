@@ -17,7 +17,7 @@ body {
   background: #ffffff;
   border-radius: 16px;
   padding: 32px;
-  max-width: 480px;
+  max-width: 560px;
   width: 100%;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   text-align: center;
@@ -35,13 +35,31 @@ h1 {
   font-size: 0.95rem;
 }
 
+.settings {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+label {
+  color: #555;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+input,
 select {
   width: 100%;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  margin-bottom: 16px;
   font-size: 1rem;
+  background: #fff;
+}
+
+.settings select {
+  margin-bottom: 6px;
 }
 
 .message {
@@ -66,20 +84,17 @@ select {
   margin-bottom: 12px;
 }
 
-button,
-.share-btn {
+button {
   border: none;
   padding: 10px 18px;
   border-radius: 8px;
   font-size: 0.95rem;
   cursor: pointer;
-  text-decoration: none;
   font-weight: 600;
   transition: transform 0.1s ease, opacity 0.2s ease;
 }
 
-button:active,
-.share-btn:active {
+button:active {
   transform: scale(0.97);
 }
 
@@ -93,15 +108,92 @@ button:active,
   color: #333;
 }
 
-.share-btn {
-  background: #25d366;
+.start-btn {
+  background: #159957;
   color: white;
-  display: inline-flex;
-  align-items: center;
 }
 
-.hint {
-  font-size: 0.78rem;
-  color: #999;
+.stop-btn {
+  background: #f1d4d4;
+  color: #8c2424;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.status {
+  color: #555;
+  font-size: 0.85rem;
+  margin: 4px 0 22px;
+}
+
+.log-section {
+  border-top: 1px solid #e5e5e5;
+  padding-top: 18px;
+  text-align: left;
+}
+
+.log-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+h2 {
   margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.log-heading span {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.delivery-log {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 8px;
+  max-height: 230px;
+  overflow-y: auto;
+}
+
+.delivery-log:empty::before {
+  content: "No simulated deliveries yet";
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.delivery-log li {
+  background: #f7f8fb;
+  border-left: 3px solid #159957;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+}
+
+.delivery-log strong,
+.delivery-log span {
+  display: block;
+}
+
+.delivery-log strong {
+  color: #159957;
+}
+
+.delivery-log span {
+  color: #888;
+  font-size: 0.76rem;
+  margin-top: 2px;
+}
+
+.delivery-log p {
+  color: #333;
+  margin: 6px 0 0;
+  line-height: 1.35;
 }

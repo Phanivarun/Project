@@ -8,25 +8,47 @@
 </head>
 <body>
   <main class="card">
-    <h1>Random Message Generator</h1>
-    <p class="subtitle">Pick a category and generate a message</p>
+    <h1>Message Simulator</h1>
+    <p class="subtitle">Automatic delivery demo for local testing</p>
 
-    <select id="category">
-      <option value="all">All</option>
-      <option value="quotes">Quotes</option>
-      <option value="jokes">Jokes</option>
-      <option value="greetings">Greetings</option>
-    </select>
+    <div class="settings">
+      <label for="receiver">Simulated receiver</label>
+      <input id="receiver" type="text" value="Demo receiver" maxlength="40" />
+
+      <label for="category">Message category</label>
+      <select id="category">
+        <option value="all">All</option>
+        <option value="quotes">Quotes</option>
+        <option value="jokes">Jokes</option>
+        <option value="greetings">Greetings</option>
+      </select>
+
+      <label for="interval">Automatic interval</label>
+      <select id="interval">
+        <option value="1">Every 1 second</option>
+        <option value="2" selected>Every 2 seconds</option>
+        <option value="5">Every 5 seconds</option>
+      </select>
+    </div>
 
     <div id="message" class="message">Press "Generate" to get a message ✨</div>
 
     <div class="actions">
       <button id="generateBtn">Generate</button>
       <button id="copyBtn">Copy</button>
-      <a id="shareBtn" class="share-btn" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
+      <button id="startBtn" class="start-btn">Start automatic demo</button>
+      <button id="stopBtn" class="stop-btn" disabled>Stop</button>
     </div>
 
-    <p class="hint">Share opens WhatsApp so you choose who to send it to — nothing is sent automatically.</p>
+    <p id="status" class="status" aria-live="polite">Simulation stopped. No message was sent.</p>
+
+    <section class="log-section" aria-labelledby="logTitle">
+      <div class="log-heading">
+        <h2 id="logTitle">Simulation log</h2>
+        <span id="messageCount">0 messages</span>
+      </div>
+      <ol id="deliveryLog" class="delivery-log" aria-live="polite"></ol>
+    </section>
   </main>
 
   <script src="script.js"></script>

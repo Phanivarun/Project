@@ -26,7 +26,16 @@ const categorySelect = document.getElementById("category");
 const messageEl = document.getElementById("message");
 const generateBtn = document.getElementById("generateBtn");
 const copyBtn = document.getElementById("copyBtn");
-const shareBtn = document.getElementById("shareBtn");
+const receiverInput = document.getElementById("receiver");
+const intervalSelect = document.getElementById("interval");
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
+const statusEl = document.getElementById("status");
+const deliveryLog = document.getElementById("deliveryLog");
+const messageCountEl = document.getElementById("messageCount");
+
+let simulationTimer;
+let messageCount = 0;
 
 function getAllMessages() {
   return Object.values(messages).flat();
@@ -37,7 +46,6 @@ function generateMessage() {
   const pool = category === "all" ? getAllMessages() : messages[category];
   const random = pool[Math.floor(Math.random() * pool.length)];
   messageEl.textContent = random;
-  shareBtn.href = `https://wa.me/?text=${encodeURIComponent(random)}`;
 }
 
 generateBtn.addEventListener("click", generateMessage);
@@ -52,5 +60,45 @@ copyBtn.addEventListener("click", async () => {
   }
 });
 
-// initial message on load
+function addDeliveryLog() {
+  generateMessage();
+  messageCount += 1;
+
+  const entry = document.createElement("li");
+  const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  const title = document.createElement("strong");
+  title.textContent = "Simulated delivery";
+  const details = document.createElement("span");
+  details.textContent = `${time} · ${receiverInput.value.trim() || "Demo receiver"}`;
+  const message = document.createElement("p");
+  message.textContent = messageEl.textContent;
+  entry.append(title, details, message);
+  deliveryLog.prepend(entry);
+  messageCountEl.textContent = `${messageCount} message${messageCount === 1 ? "" : "s"}`;
+  statusEl.textContent = `Simulated message ${messageCount} delivered locally. Nothing was sent online.`;
+}
+
+function stopSimulation() {
+  clearInterval(simulationTimer);
+  simulationTimer = undefined;
+  startBtn.disabled = false;
+  stopBtn.disabled = true;
+  statusEl.textContent = messageCount
+    ? `Simulation stopped after ${messageCount} local message${messageCount === 1 ? "" : "s"}.`
+    : "Simulation stopped. No message was sent.";
+}
+
+startBtn.addEventListener("click", () => {
+  if (simulationTimer) return;
+
+  const interval = Number(intervalSelect.value) * 1000;
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
+  statusEl.textContent = "Simulation running locally. Nothing is being sent online.";
+  addDeliveryLog();
+  simulationTimer = setInterval(addDeliveryLog, interval);
+});
+
+stopBtn.addEventListener("click", stopSimulation);
+
 generateMessage();
